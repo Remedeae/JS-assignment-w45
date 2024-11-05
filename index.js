@@ -4,36 +4,60 @@ const account = {
     loginName: null,
     login: false,
     accountError () {
-        console.log("Insufficient funds.");
-        const errorMessage = prompt ("Would you still like to make a withdrawal? Y/N");
-        switch (errorMessage) {
-            case "Y":
-            case "y":
-                this.withdrawal();
-                break;
-            case "N":
-            case "n":
-        }
+        console.log("Invalid input.");
+        return;
     },
     getBalance() {
         console.log(`You have ${this.balance}SEK on your account.`);
     },
     deposit() {
-        this.balance += parseFloat(
-            prompt("How much do you want to deposit?"));
-        this.getBalance ();
+        let transaction = parseFloat(
+            prompt(
+            "How much do you want to deposite?"));
+        if (isNaN(transaction)) {
+            this.accountError();
+        }
+        else {
+            this.balance += transaction;
+            this.getBalance ();
+            return this.balance;
+        }
     },
     withdrawal() {
-        let withdraw = parseFloat(
+        let transaction = parseFloat(
             prompt(
             "How much do you want to withdraw?"));
-        if (this.balance > withdraw) {
-            this.balance -= withdraw;
+        if (isNaN(transaction)) {
+            this.accountError();
+        }
+        else if (this.balance > transaction) {
+            this.balance -= transaction;
             this.getBalance ();
             return this.balance;
         }
         else {
-            this.accountError ();
+            console.log("Insufficient funds.");
+            const errorMessage = prompt ("Would you still like to make a withdrawal? Y/N");
+            //tried to make this into an if else function but it didn't work for some reason
+    /*         
+            if (errorMessage === "y" || "Y") {
+                this.withdrawal();
+            } else if (errorMessage === "n" || "N") {
+                return;
+            }
+            else {
+                console.log("Invalid input.");
+                const errorMessage = prompt ("Would you still like to make a withdrawal? Y/N");
+            }
+     */
+            switch (errorMessage) {
+                case "Y":
+                case "y":
+                    this.withdrawal();
+                    break;
+                case "N":
+                case "n":
+            }
         }
     },
     getAccountName () {
@@ -70,7 +94,6 @@ function atm () {
             break;
         case 2:
             account.deposit();
-            account.getBalance();
             break;
         case 3:
             account.withdrawal ();

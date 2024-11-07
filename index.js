@@ -107,7 +107,7 @@ function atm() {
 
 };
 
-/* account.loginPrompt();
-atm (); */
+account.loginPrompt();
+atm ();
 
-account.withdrawal();
+//account.withdrawal();
